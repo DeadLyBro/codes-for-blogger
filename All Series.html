@@ -1,0 +1,214 @@
+<!-- Javascript --> 
+
+<script>
+
+function generateAlphabetLinks() {
+    for (var t = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", e = "", a = 0; a < t.length; a++)
+        e += '<a href="#' + t[a] + '">' + t[a] + "</a>";
+    return e
+}
+document.write('<div id="a-top"><div id="abjad-filted">' + generateAlphabetLinks() + '<div class="clear"></div></div></div>'),
+document.write('<script src="https://www.didatranslations.org/feeds/posts/default/-/Series?orderby=published&alt=json-in-script&callback=show_animelist&start-index=1&max-results=9999"><\/script>');
+var sections = $(".abjad-alfabet")
+  , header = document.getElementById("a-top")
+  , sticky = header.offsetTop
+  , nav = $("#a-top")
+  , nav_height = nav.outerHeight();
+$(window).on("scroll", function() {
+    window.onscroll = function() {
+        window.pageYOffset > sticky ? header.classList.add("sticky") : header.classList.remove("sticky")
+    }
+    ;
+    var a = $(this).scrollTop();
+    sections.each(function() {
+        var t = $(this).offset().top - nav_height
+          , e = t + $(this).outerHeight();
+        t <= a && a <= e && (nav.find("a").removeClass("active"),
+        sections.removeClass("active"),
+        $(this).addClass("active"),
+        nav.find('a[href="#' + $(this).attr("name") + '"]').addClass("active"))
+    })
+}),
+nav.find("a").on("click", function() {
+    var t = $(this).attr("href");
+    return $("html, body").animate({
+        scrollTop: $(t).offset().top - nav_height
+    }, 0),
+    !1
+});
+
+</script>
+
+<script type="text/javascript">
+var imgBlank = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAA3NCSVQICAjb4U/gAAAADElEQVQImWOor68HAAL+AX7vOF2TAAAAAElFTkSuQmCC";
+
+function animelist(h) {
+    this.abjad = {}, this.overkeys = [], this.grab = function() {
+        for (var i = h.feed.entry, t = i.length, a = 0; a < t && a != t; a++) {
+            for (var s = i[a], e = s.title.$t, n = "", r = ("media$thumbnail" in s ? s.media$thumbnail.url.replace(/\/s72\-c/, "/s640") : imgBlank), l = 0; l < s.link.length; l++) "alternate" == s.link[l].rel && (n = s.link[l].href);
+            var o = e.substr(0, 1).toLowerCase(),
+                e = {
+                    title: e,
+                    thumb: r,
+                    linkpost: n
+                };
+            void 0 === this.abjad[o] ? this.abjad[o] = [e] : "object" == typeof this.abjad[o] && this.abjad[o].push(e)
+        }
+    }, this.filter = function() {
+        for (var i in this.abjad) this.overkeys.push(i), this.overkeys.sort()
+    }, this.buildingscripts = function() {
+        for (var i in this.overkeys) {
+            var i = this.overkeys[i],
+                t = i.toUpperCase(),
+                a = this.abjad[i],
+                s = [],
+                e = [];
+            document.write('<div class="abjad"><a name=' + t + ">" + t + "</a></div>"), document.write('<div class="list-post box-3 bsn"><div class="mal-container">');
+            for (var n = 0; n < a.length; n++) s.push(a[n].title), s.sort();
+            for (n = 0; n < a.length; n++) {
+                for (var r = s[n], l = "", e = "", o = 0; o < a.length; o++) a[o].title == r && (l = a[o].linkpost, e = a[o].thumb);
+                document.write('<div class="anime"><div class="anime-left"><a class="i-flex" href="' + l + '"><img class="cover" src="' + e + '" /></a><div class="anime-title"><a class="datatitle" href="' + l + '">' + r + "</a></div></div></div>")
+            }
+            document.write("</div></div>")
+        }
+    }, this.run = function() {
+        this.grab(), this.filter(), this.buildingscripts()
+    }
+}
+
+function show_animelist(i) {
+    new animelist(i).run()
+}
+</script>
+
+<!-- Cascading StyleSheet (CSS) -->
+
+<style>
+#a-top {
+  overflow: hidden;
+}
+#abjad-filted {
+  margin: 5px;
+  padding: 0px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.sticky {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  background: #2196f3;
+  box-shadow: 0 1px 5px 1px rgba(0, 0, 0, 0.4);
+  z-index: 999;
+}
+#abjad-filted a {
+  background-color: #eee;
+  color: #333;
+  padding: 7px 0px;
+  cursor: pointer;
+  margin: 0px 5px 5px 0px;
+  text-align: center;
+  text-transform: uppercase;
+  width: 35px;
+  text-decoration: none;
+  border-radius: 3px;
+}
+#abjad-filted a:hover {
+ background-color: #0c70de;
+ color: #fff;
+}
+.abjad::after {
+  display: block;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ececec;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 17px;
+  position: relative;
+}
+.list-post {
+  margin: 0px 0px 15px;
+  list-style: none;
+  display: grid;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+.mal-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 10px;
+}
+.anime {
+  overflow: hidden;
+  border-radius: 4px;
+  align-items: center;
+}
+.anime-left {
+  display: inline-flex;
+  flex-direction: column-reverse;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.i-flex {
+  display: inline-flex;
+}
+.cover {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  overflow: hidden;
+}
+.anime-title {
+  width: calc(100% - 0px);
+  position: absolute;
+  background: rgba(31, 38, 49, 0.9);
+  font-weight: 600;
+}
+.datatitle {
+  font-size: 15px;
+  color: rgb(255, 255, 255);
+  font-weight: normal;
+  margin: 0;
+  overflow: hidden;
+  padding: 0 4px;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-align: center;
+}
+.anime:hover .title {
+  white-space: pre-line;
+}
+.abjad {
+  display: block;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ececec;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 17px;
+}
+@media screen and (max-width: 500px) {
+  .mal-container {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+}
+</style>
+
+
+<!-- XML, because you don't need to change url if you change your blog. (I hope it's work lol. But you can try with below that code.) -->
+
+<script expr:src="data:blog.homepageUrl + &quot;/feeds/posts/default/-/Series?orderby=published&amp;alt=json-in-script&amp;callback=show_animelist&amp;start-index=1&amp;max-results=9999&quot;"></script>
+
+<!-- Codes end here -->
+<!-- If it's not work for you change it like this; -->
+<!-- Ps: Update YourBlogName to your blog name. -->
+
+<script src="https://YourBlogName.blogspot.com/feeds/posts/default/-/Series?orderby=published&amp;alt=json-in-script&amp;callback=show_animelist&amp;start-index=1&amp;max-results=9999"></script>
